@@ -3,18 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_inicio"
+            android:icon="@drawable/ic_opt_inicio"
+            android:title="@string/opt_inicio" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_recordatorio"
+            android:icon="@drawable/ic_opt_recordatorio"
+            android:title="@string/opt_recordatorio" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_calendario"
+            android:icon="@drawable/ic_opt_calendario"
+            android:title="@string/opt_calendario" />
+        <item
+            android:id="@+id/nav_alarma"
+            android:icon="@drawable/ic_opt_alarma"
+            android:title="@string/opt_alarma" />
+        <item
+            android:id="@+id/nav_musica"
+            android:icon="@drawable/ic_opt_musica"
+            android:title="@string/opt_musica" />
     </group>
 </menu>

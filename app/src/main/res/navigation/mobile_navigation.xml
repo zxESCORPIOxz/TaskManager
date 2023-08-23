@@ -3,23 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_inicio">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.errorcorp.taskmanager.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_inicio"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_inicio"
+        android:label="@string/opt_inicio"
+        tools:layout="@layout/fragment_opt_inicio" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.errorcorp.taskmanager.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_recordatorio"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_recordatorio"
+        android:label="@string/opt_recordatorio"
+        tools:layout="@layout/fragment_opt_recordatorio" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.errorcorp.taskmanager.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_calendario"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_calendario"
+        android:label="@string/opt_calendario"
+        tools:layout="@layout/fragment_opt_calendario" />
+
+    <fragment
+        android:id="@+id/nav_alarma"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_alarma"
+        android:label="@string/opt_alarma"
+        tools:layout="@layout/fragment_opt_alarma" />
+
+    <fragment
+        android:id="@+id/nav_musica"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_musica"
+        android:label="@string/opt_musica"
+        tools:layout="@layout/fragment_opt_musica" />
+
 </navigation>
