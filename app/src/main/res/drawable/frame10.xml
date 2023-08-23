@@ -1,0 +1,13 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define un degradado circular -->
+    <gradient
+        android:type="linear"
+        android:centerX="55%"
+        android:centerY="55%"
+        android:startColor="#434343"
+        android:centerColor="#989898"
+        android:endColor="#E7E7E7"
+        android:gradientRadius="50%"
+        android:angle="-45"
+        />
+</shape>

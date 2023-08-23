@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="gray_megalight">#F6F0F1</color>
+    <color name="gray_light">#9C9C9E</color>
+    <color name="gray_middle">#7C7C7C</color>
+    <color name="gray_dark">#7C747A</color>
+    <color name="gray_dark_trans">#801A1C20</color>
+    <color name="gray_megadark">#1A1C20</color>
+
+    <color name="orange">#F38028</color>
+    <color name="blue">#2C69E2</color>
+    <color name="red">#FF1203</color>
+    <color name="green">#25B107</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+</resources>
