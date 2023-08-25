@@ -16,10 +16,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-//        val animatedView = findViewById<RelativeLayout>(R.id.contanim)
-//        val animationDrawable = animatedView.background as AnimationDrawable
-//        animationDrawable.start()
-
         val element = findViewById<RelativeLayout>(R.id.element)
 
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation)

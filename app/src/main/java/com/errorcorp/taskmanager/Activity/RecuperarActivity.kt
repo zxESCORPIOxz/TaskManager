@@ -15,10 +15,8 @@ import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
-class LoginActivity : AppCompatActivity() , View.OnClickListener {
+class RecuperarActivity : AppCompatActivity() , View.OnClickListener {
 
     //Dialog
     private lateinit var dialog: Dialog
@@ -29,41 +27,30 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
     private lateinit var errorAnimationView: LottieAnimationView
 
     //Button
-    private lateinit var btnlogin: Button
-    private lateinit var btngoregistrar: Button
+    private lateinit var btnback: Button
     private lateinit var btnrecuperar: Button
 
     //Edittext
     private lateinit var etmail: EditText
-    private lateinit var etpass: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_recuperar)
 
-        btnlogin = findViewById<Button>(R.id.btnlogin)
-        btnlogin.setOnClickListener(this)
-        btngoregistrar = findViewById<Button>(R.id.btngoregistrar)
-        btngoregistrar.setOnClickListener(this)
+        btnback = findViewById<Button>(R.id.btnback)
+        btnback.setOnClickListener(this)
         btnrecuperar = findViewById<Button>(R.id.btnrecuperar)
         btnrecuperar.setOnClickListener(this)
 
         etmail = findViewById<EditText>(R.id.etmail)
-        etpass = findViewById<EditText>(R.id.etpass)
-    }
-
-    fun goToActivity(activity: AppCompatActivity) {
-        val intent = Intent(this, activity::class.java)
-        intent.putExtra("mail", etmail.text.toString())
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-        finish()
     }
 
     override fun onClick(v: View?) {
-
         when (v?.id) {
-            (R.id.btnlogin) -> {
+            (R.id.btnback) -> {
+                goToActivity(LoginActivity())
+            }
+            (R.id.btnrecuperar) -> {
                 dialog = Dialog(this)
                 dialog.setContentView(R.layout.dialog_loading)
                 dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -79,7 +66,7 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
                     override fun onAnimationRepeat(animation: Animator) {}
                     override fun onAnimationEnd(animation: Animator) {
                         dialog.dismiss()
-                        goToActivity(MainActivity())
+                        goToActivity(LoginActivity())
                     }
                 })
                 errorAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
@@ -91,73 +78,50 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
                     }
                 })
 
-                validateUser()
-
-            }
-            (R.id.btngoregistrar) -> {
-                goToActivity(RegistrarActivity())
-            }
-            (R.id.btnrecuperar) -> {
-                goToActivity(RecuperarActivity())
+                recuperarPass()
             }
         }
     }
 
-    fun validateUser(){
+    fun recuperarPass(){
         if(
-            etmail.text.toString().isNotEmpty() &&
-            etpass.text.toString().isNotEmpty()
-        ){
+            etmail.text.toString().isNotEmpty()
+        ) {
             dialog.setCancelable(false)
             dialog.show()
 
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                etmail.text.toString(),
-                etpass.text.toString()
-            )
+            FirebaseAuth.getInstance().sendPasswordResetEmail(etmail.text.toString())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val toast = Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT)
+                        val toast = Toast.makeText(this, "El correo de recuperación se envió correctamente", Toast.LENGTH_SHORT)
                         toast.show()
 
-                        val user = FirebaseAuth.getInstance().currentUser
-                        
                         loadAnimationView.pauseAnimation()
                         loadAnimationView.visibility = View.GONE
                         successAnimationView.visibility = View.VISIBLE
                         successAnimationView.playAnimation()
                     } else {
-                        try {
-                            throw task.exception!!
-                        } catch (e: FirebaseAuthInvalidUserException) {
-                            etmail.setError("El correo no está registrado")
+                        val toast = Toast.makeText(this, "Hubo un error al enviar el correo de recuperación", Toast.LENGTH_SHORT)
+                        toast.show()
 
-                            loadAnimationView.pauseAnimation()
-                            loadAnimationView.visibility = View.GONE
-                            errorAnimationView.visibility = View.VISIBLE
-                            errorAnimationView.playAnimation()
-                        } catch (e: FirebaseAuthInvalidCredentialsException) {
-                            etpass.setError("La contraseña es incorrecta")
-
-                            loadAnimationView.pauseAnimation()
-                            loadAnimationView.visibility = View.GONE
-                            errorAnimationView.visibility = View.VISIBLE
-                            errorAnimationView.playAnimation()
-                        } catch (e: Exception) {
-                            // Otro tipo de error
-                            dialog.dismiss()
-                        }
+                        loadAnimationView.pauseAnimation()
+                        loadAnimationView.visibility = View.GONE
+                        errorAnimationView.visibility = View.VISIBLE
+                        errorAnimationView.playAnimation()
                     }
                 }
         } else {
             if(etmail.text.toString().isEmpty()){
                 etmail.setError("Campo obligatorio")
             }
-            if(etpass.text.toString().isEmpty()){
-                etpass.setError("Campo obligatorio")
-            }else if(etpass.text.length >= 8){
-                etpass.setError("Logitud minima de 8")
-            }
         }
+
+    }
+
+    fun goToActivity(activity: AppCompatActivity) {
+        val intent = Intent(this, activity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
     }
 }
