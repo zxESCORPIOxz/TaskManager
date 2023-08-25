@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animation) {
-                goToActivity(MainActivity())
+                goToActivity(LoginActivity())
             }
 
             override fun onAnimationRepeat(animation: Animation) {

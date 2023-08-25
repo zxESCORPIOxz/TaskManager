@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash"
-    tools:context=".Activity.SplashActivity">
+    tools:context=".Activity.SplashActivity"
+    android:gravity="center_vertical">
 
     <RelativeLayout
         android:id="@+id/element"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_centerInParent="true">
+        android:layout_marginHorizontal="30dp">
 
         <LinearLayout
             android:id="@+id/contversion"
@@ -65,4 +65,13 @@
             />
 
     </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:lottie_rawRes="@raw/anim_load"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_below="@id/element"/>
 </RelativeLayout>
