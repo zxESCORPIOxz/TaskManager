@@ -78,6 +78,7 @@
                     android:layout_above="@id/etpass"
                     android:layout_marginVertical="10dp"
                     android:textColor="@color/gray_megadark"
+                    android:textSize="@dimen/text_size"
                     android:hint="Correo"
                     android:drawableStart="@drawable/custom_mail_icons"
                     android:drawablePadding="5dp"
@@ -88,15 +89,24 @@
                     android:id="@+id/etpass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/btnrecuperar"
+                    android:layout_above="@id/cbrecordarme"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/gray_megadark"
+                    android:textSize="@dimen/text_size"
                     android:hint="Contraseña"
                     android:drawableStart="@drawable/custom_pass_icons"
                     android:drawablePadding="5dp"
                     android:background="@drawable/custom_input"
                     android:inputType="textPassword"
                     android:textColorHint="@color/gray_middle"/>
+                <CheckBox
+                    android:id="@+id/cbrecordarme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/btnrecuperar"
+                    android:text="Recordarme"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@color/gray_megadark"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnrecuperar"
                     style="@style/Widget.MaterialComponents.Button.TextButton"

@@ -1,71 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="bottom"
     android:orientation="vertical"
+    android:paddingTop="50dp"
+    android:paddingBottom="15dp"
+    android:background="@drawable/side_nav_bar"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/fondo_top_nav"
-        android:adjustViewBounds="true"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/contversion"
-            android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/ctrelog"
+        android:layout_width="120dp"
+        android:layout_height="120dp">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:lottie_rawRes="@raw/anim_splash"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+        <TextView
+            android:id="@+id/tvhora"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="-50dp"
-            android:layout_toRightOf="@id/circleImageView"
-            android:background="@drawable/rec_red_gdt"
-            android:orientation="vertical"
-            android:paddingVertical="10dp"
-            android:paddingLeft="60dp"
-            android:paddingRight="10dp"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TASK MANAGER"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textAlignment="viewStart"
-                android:fontFamily="@font/lilita_one"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="V1.0"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textAlignment="viewStart"
-                android:fontFamily="@font/raleway_semibold"/>
-        </LinearLayout>
+            android:text="00:00"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/lilita_one"
+            android:layout_gravity="center_vertical|center_horizontal"/>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ctrelog"
+        android:layout_alignTop="@id/ctrelog"
+        android:layout_alignBottom="@id/ctrelog"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/lilita_one"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/logo"
-            android:layout_gravity="center"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/orange"
-            app:civ_border_overlay="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:elevation="15dp"
-            />
+        <TextView
+            android:id="@+id/tvversion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_version"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/raleway_semibold"/>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tvfecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:text="00/00/0000"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:fontFamily="@font/raleway_semibold"/>
+    </LinearLayout>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ctrelog"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="16dp"
+        android:text="Nombre y Apellido"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/raleway_semibold"/>
+
+    <TextView
+        android:id="@+id/tvmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvname"
+        android:layout_alignParentEnd="true"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="16dp"
+        android:text="correo@gmail.com"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/raleway_semibold"/>
+
+</RelativeLayout>

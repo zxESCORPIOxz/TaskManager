@@ -1,77 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contanim"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_splash"
+    android:orientation="vertical"
+    android:background="@drawable/side_nav_bar"
     tools:context=".Activity.SplashActivity"
-    android:gravity="center_vertical">
-
-    <RelativeLayout
-        android:id="@+id/element"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp">
-
-        <LinearLayout
-            android:id="@+id/contversion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="-75dp"
-            android:layout_toRightOf="@id/circleImageView"
-            android:background="@drawable/rec_red_gdt"
-            android:orientation="vertical"
-            android:paddingVertical="10dp"
-            android:paddingLeft="85dp"
-            android:paddingRight="10dp"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TASK MANAGER"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:textAlignment="viewStart"
-                android:fontFamily="@font/lilita_one"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="V1.0"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textAlignment="viewStart"
-                android:fontFamily="@font/raleway_semibold"/>
-        </LinearLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/logo"
-            android:layout_gravity="center"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/orange"
-            app:civ_border_overlay="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:elevation="15dp"
-            />
-
-    </RelativeLayout>
-
+    android:gravity="center">
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:lottie_rawRes="@raw/anim_load"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        android:layout_below="@id/element"/>
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/anim_splash"
+        app:lottie_autoPlay="true"/>
+    <TextView
+        android:id="@+id/tvapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/lilita_one"/>
+    <TextView
+        android:id="@+id/tvversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_version"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/raleway_semibold"/>
+</LinearLayout>

@@ -10,10 +10,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.R
+import com.errorcorp.taskmanager.Util.SharedPreferencesManager
+import com.errorcorp.taskmanager.Util.Valor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -37,19 +40,64 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
     private lateinit var etmail: EditText
     private lateinit var etpass: EditText
 
+    //CheckBox
+    private lateinit var cbrecordarme: CheckBox
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btnlogin = findViewById<Button>(R.id.btnlogin)
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_loading)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        loadAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfload)
+        successAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfsuccess)
+        errorAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lferror)
+
+        successAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                dialog.dismiss()
+                goToActivity(MainActivity())
+            }
+        })
+        errorAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
+                dialog.dismiss()
+            }
+        })
+
+        btnlogin = findViewById(R.id.btnlogin)
         btnlogin.setOnClickListener(this)
-        btngoregistrar = findViewById<Button>(R.id.btngoregistrar)
+        btngoregistrar = findViewById(R.id.btngoregistrar)
         btngoregistrar.setOnClickListener(this)
-        btnrecuperar = findViewById<Button>(R.id.btnrecuperar)
+        btnrecuperar = findViewById(R.id.btnrecuperar)
         btnrecuperar.setOnClickListener(this)
 
-        etmail = findViewById<EditText>(R.id.etmail)
-        etpass = findViewById<EditText>(R.id.etpass)
+        etmail = findViewById(R.id.etmail)
+        etpass = findViewById(R.id.etpass)
+
+        cbrecordarme = findViewById(R.id.cbrecordarme)
+        cbrecordarme.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                SharedPreferencesManager.setBooleanValue(Valor.CB_RECORDARME, isChecked)
+            } else {
+                SharedPreferencesManager.setBooleanValue(Valor.CB_RECORDARME, isChecked)
+            }
+        }
+        if (SharedPreferencesManager.getBooleanValue(Valor.CB_RECORDARME)){
+            cbrecordarme.isChecked = true
+            etmail.setText(SharedPreferencesManager.getStringValue(Valor.LOG_USER))
+            etpass.setText(SharedPreferencesManager.getStringValue(Valor.LOG_PASS))
+            validateUser()
+        }
     }
 
     fun goToActivity(activity: AppCompatActivity) {
@@ -61,36 +109,8 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-
         when (v?.id) {
             (R.id.btnlogin) -> {
-                dialog = Dialog(this)
-                dialog.setContentView(R.layout.dialog_loading)
-                dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-                loadAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfload)
-                successAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfsuccess)
-                errorAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lferror)
-
-                successAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator) {}
-                    override fun onAnimationCancel(animation: Animator) {}
-                    override fun onAnimationRepeat(animation: Animator) {}
-                    override fun onAnimationEnd(animation: Animator) {
-                        dialog.dismiss()
-                        goToActivity(MainActivity())
-                    }
-                })
-                errorAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animation: Animator) {}
-                    override fun onAnimationCancel(animation: Animator) {}
-                    override fun onAnimationRepeat(animation: Animator) {}
-                    override fun onAnimationEnd(animation: Animator) {
-                        dialog.dismiss()
-                    }
-                })
-
                 validateUser()
 
             }
@@ -111,6 +131,10 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
             dialog.setCancelable(false)
             dialog.show()
 
+            if(SharedPreferencesManager.getBooleanValue(Valor.CB_RECORDARME))
+                SharedPreferencesManager.setStringValue(Valor.LOG_USER, etmail.text.toString())
+                SharedPreferencesManager.setStringValue(Valor.LOG_PASS, etpass.text.toString())
+
             FirebaseAuth.getInstance().signInWithEmailAndPassword(
                 etmail.text.toString(),
                 etpass.text.toString()
@@ -119,8 +143,6 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
                     if (task.isSuccessful) {
                         val toast = Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT)
                         toast.show()
-
-                        val user = FirebaseAuth.getInstance().currentUser
                         
                         loadAnimationView.pauseAnimation()
                         loadAnimationView.visibility = View.GONE

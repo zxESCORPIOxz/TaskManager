@@ -35,4 +35,10 @@
         android:label="@string/opt_musica"
         tools:layout="@layout/fragment_opt_musica" />
 
+    <fragment
+        android:id="@+id/nav_configuracion"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_configuracion"
+        android:label="@string/opt_configuracion"
+        tools:layout="@layout/fragment_opt_configuracion" />
+
 </navigation>

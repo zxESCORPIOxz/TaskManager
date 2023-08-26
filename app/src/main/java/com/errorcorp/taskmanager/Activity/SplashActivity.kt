@@ -1,5 +1,6 @@
 package com.errorcorp.taskmanager.Activity
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,34 +8,28 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.R
 
 class SplashActivity : AppCompatActivity() {
 
+    //Lotties
+    private lateinit var loadAnimationView: LottieAnimationView
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val element = findViewById<RelativeLayout>(R.id.element)
+        loadAnimationView = findViewById<LottieAnimationView>(R.id.logo)
 
-        val animation = AnimationUtils.loadAnimation(this, R.anim.animation)
-
-        element.startAnimation(animation)
-        animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
+        loadAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
                 goToActivity(LoginActivity())
             }
-
-            override fun onAnimationRepeat(animation: Animation) {
-
-            }
         })
-
     }
 
     fun goToActivity(activity: AppCompatActivity) {

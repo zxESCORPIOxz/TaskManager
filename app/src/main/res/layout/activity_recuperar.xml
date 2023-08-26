@@ -78,6 +78,7 @@
                     android:layout_marginVertical="10dp"
                     android:textColor="@color/gray_megadark"
                     android:hint="Correo"
+                    android:textSize="@dimen/text_size"
                     android:drawableStart="@drawable/custom_mail_icons"
                     android:drawablePadding="5dp"
                     android:background="@drawable/custom_input"

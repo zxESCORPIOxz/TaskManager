@@ -26,4 +26,15 @@
             android:icon="@drawable/ic_opt_musica"
             android:title="@string/opt_musica" />
     </group>
+    <item android:title="@string/titlemenu">
+        <menu>
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_configuracion"
+                    android:icon="@drawable/ic_configuracion"
+                    android:title="@string/opt_configuracion"/>
+            </group>
+        </menu>
+    </item>
 </menu>
