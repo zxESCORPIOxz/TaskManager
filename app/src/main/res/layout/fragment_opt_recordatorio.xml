@@ -1,8 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_megalight"
     tools:context=".Fragment.opt_recordatorio">
+    <RelativeLayout
+        android:id="@+id/ctbuscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@drawable/rec_red_botton_deg">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svbuscar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foregroundTint="@color/white" />
 
-</FrameLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnagregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/svbuscar"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/raleway_semibold"
+            android:paddingHorizontal="15dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="start"
+            app:iconTint="@color/white"
+            app:iconPadding="0dp"
+            android:text="Agregar"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/orange"
+            android:elegantTextHeight="true"
+            android:elevation="10dp"
+            app:cornerRadius="10dp"
+            />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/ctbuscar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_recordatorio"
+                android:nestedScrollingEnabled="false"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

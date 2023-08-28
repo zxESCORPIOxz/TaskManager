@@ -5,36 +5,55 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_inicio">
 
+    <!--Inicio-->
     <fragment
         android:id="@+id/nav_inicio"
         android:name="com.errorcorp.taskmanager.Fragment.opt_inicio"
         android:label="@string/opt_inicio"
         tools:layout="@layout/fragment_opt_inicio" />
-
+    <!--Recordatorio-->
     <fragment
         android:id="@+id/nav_recordatorio"
         android:name="com.errorcorp.taskmanager.Fragment.opt_recordatorio"
         android:label="@string/opt_recordatorio"
-        tools:layout="@layout/fragment_opt_recordatorio" />
+        tools:layout="@layout/fragment_opt_recordatorio" >
+        <action
+            android:id="@+id/action_nav_recordatorio_to_nav_registrar"
+            app:destination="@id/nav_registrar"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/nav_registrar"
+        android:name="com.errorcorp.taskmanager.Fragment.frg_registrar"
+        android:label="@string/frg_registrar"
+        tools:layout="@layout/fragment_frg_registrar"/>
+
+    <!--Calendario-->
     <fragment
         android:id="@+id/nav_calendario"
         android:name="com.errorcorp.taskmanager.Fragment.opt_calendario"
         android:label="@string/opt_calendario"
         tools:layout="@layout/fragment_opt_calendario" />
 
+    <!--Alarma-->
     <fragment
         android:id="@+id/nav_alarma"
         android:name="com.errorcorp.taskmanager.Fragment.opt_alarma"
         android:label="@string/opt_alarma"
         tools:layout="@layout/fragment_opt_alarma" />
 
+    <!--Musica-->
     <fragment
         android:id="@+id/nav_musica"
         android:name="com.errorcorp.taskmanager.Fragment.opt_musica"
         android:label="@string/opt_musica"
         tools:layout="@layout/fragment_opt_musica" />
 
+    <!--Configuracion-->
     <fragment
         android:id="@+id/nav_configuracion"
         android:name="com.errorcorp.taskmanager.Fragment.opt_configuracion"

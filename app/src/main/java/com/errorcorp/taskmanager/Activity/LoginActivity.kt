@@ -1,6 +1,7 @@
 package com.errorcorp.taskmanager.Activity
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -123,6 +124,7 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun validateUser(){
         if(
             etmail.text.toString().isNotEmpty() &&
