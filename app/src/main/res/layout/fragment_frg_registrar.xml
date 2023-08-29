@@ -126,19 +126,109 @@
                             android:layout_below="@id/btnaddfecha"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/item_fecha"
+                            tools:itemCount="2"
                             android:nestedScrollingEnabled="false"/>
                     </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/ctCategoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:fontFamily="@font/raleway_semibold"
+                            android:text="Categoria"
+                            android:textColor="@color/gray_megadark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center_vertical"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_marginVertical="10dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rec_red_input">
+                            <ImageView
+                                android:id="@+id/ivother"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_other"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivoffice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_office"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivgmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_gmail"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivgithub"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_github"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivdrive"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_drive"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivwhatsapp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_whatsapp"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                            <ImageView
+                                android:id="@+id/ivfacebook"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_facebook"
+                                android:background="@drawable/ripple_butons_category"
+                                android:padding="3dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnregistrar"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/raleway_semibold"
+            app:icon="@drawable/ic_save"
             android:text="Guardar recordatorio"
             android:textColor="@color/white"
             android:backgroundTint="@color/orange"

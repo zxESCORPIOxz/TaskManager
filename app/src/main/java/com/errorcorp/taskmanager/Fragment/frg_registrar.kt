@@ -15,12 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.Activity.MainActivity
 import com.errorcorp.taskmanager.Adapter.AdapterFecha
+import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
@@ -42,7 +44,6 @@ class frg_registrar : Fragment() , View.OnClickListener {
     private lateinit var successAnimationView: LottieAnimationView
     private lateinit var errorAnimationView: LottieAnimationView
 
-
     //RecyclerView
     private lateinit var rvFechas: RecyclerView
 
@@ -52,6 +53,15 @@ class frg_registrar : Fragment() , View.OnClickListener {
     //Button
     private lateinit var btnregistrar: Button
     private lateinit var btnaddfecha: MaterialButton
+
+    //ImageView
+    private lateinit var ivother: ImageView
+    private lateinit var ivoffice: ImageView
+    private lateinit var ivgmail: ImageView
+    private lateinit var ivgithub: ImageView
+    private lateinit var ivdrive: ImageView
+    private lateinit var ivwhatsapp: ImageView
+    private lateinit var ivfacebook: ImageView
 
     //EditText
     private lateinit var ettitle: EditText
@@ -65,11 +75,6 @@ class frg_registrar : Fragment() , View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_frg_registrar, container, false)
-        if ( arguments?.getString("ACTION").equals("ORIGIN") ){
-            recordatorio = Valor.RECORDATORIO
-        } else {
-            recordatorio = Recordatorio()
-        }
 
         dialog = context?.let { Dialog(it) }!!
         dialog.setContentView(R.layout.dialog_loading)
@@ -98,17 +103,65 @@ class frg_registrar : Fragment() , View.OnClickListener {
             }
         })
 
+        ivother = view.findViewById(R.id.ivother)
+        ivother.setOnClickListener(this)
+        ivoffice = view.findViewById(R.id.ivoffice)
+        ivoffice.setOnClickListener(this)
+        ivgmail = view.findViewById(R.id.ivgmail)
+        ivgmail.setOnClickListener(this)
+        ivgithub = view.findViewById(R.id.ivgithub)
+        ivgithub.setOnClickListener(this)
+        ivdrive = view.findViewById(R.id.ivdrive)
+        ivdrive.setOnClickListener(this)
+        ivwhatsapp = view.findViewById(R.id.ivwhatsapp)
+        ivwhatsapp.setOnClickListener(this)
+        ivfacebook = view.findViewById(R.id.ivfacebook)
+        ivfacebook.setOnClickListener(this)
+
         rvFechas = view.findViewById(R.id.rvFechas)
 
         ettitle = view.findViewById(R.id.ettitle)
-        ettitle.setText(recordatorio.titulo)
         etdescription = view.findViewById(R.id.etdescription)
-        etdescription.setText(recordatorio.descripcion)
 
         btnaddfecha = view.findViewById(R.id.btnaddfecha)
         btnaddfecha.setOnClickListener(this)
         btnregistrar = view.findViewById(R.id.btnregistrar)
         btnregistrar.setOnClickListener(this)
+
+        if ( arguments?.getString("ACTION").equals("ORIGIN") ){
+            recordatorio = Valor.RECORDATORIO
+            when(recordatorio.categoria){
+                ("other") -> {
+                    ivother.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("office") -> {
+                    ivoffice.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("gmail") -> {
+                    ivgmail.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("github") -> {
+                    ivgithub.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("drive") -> {
+                    ivdrive.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("whatsapp") -> {
+                    ivwhatsapp.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+                ("facebook") -> {
+                    ivfacebook.setBackgroundResource(R.drawable.ripple_butons_category_on)
+                }
+            }
+
+        } else {
+            recordatorio = Recordatorio()
+            recordatorio.categoria = "other"
+            ivother.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        }
+
+        ettitle.setText(recordatorio.titulo)
+        etdescription.setText(recordatorio.descripcion)
 
         adapterFecha = context?.let { AdapterFecha(recordatorio.fechasProgramadas, it) }!!
         rvFechas.adapter = adapterFecha
@@ -164,7 +217,52 @@ class frg_registrar : Fragment() , View.OnClickListener {
             (R.id.btnaddfecha) -> {
                 openDateTimeSelectionDialog()
             }
+            (R.id.ivother) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "other"
+                ivother.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivoffice) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "office"
+                ivoffice.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivgmail) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "gmail"
+                ivgmail.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivgithub) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "github"
+                ivgithub.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivdrive) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "drive"
+                ivdrive.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivwhatsapp) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "whatsapp"
+                ivwhatsapp.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
+            (R.id.ivfacebook) -> {
+                cleanSelectedCategory()
+                recordatorio.categoria = "facebook"
+                ivfacebook.setBackgroundResource(R.drawable.ripple_butons_category_on)
+            }
         }
+    }
+
+    fun cleanSelectedCategory(){
+        ivother.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivoffice.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivgmail.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivgithub.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivdrive.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivwhatsapp.setBackgroundResource(R.drawable.ripple_butons_category)
+        ivfacebook.setBackgroundResource(R.drawable.ripple_butons_category)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -189,8 +287,8 @@ class frg_registrar : Fragment() , View.OnClickListener {
 
                     selectedDate = selectedCalendar.time
 
-                    val fecha_select:Date
-                    fecha_select = selectedDate as Date
+                    val fecha_select:CustomDate = CustomDate()
+                    fecha_select.date = selectedDate as Date
                     recordatorio.fechasProgramadas.add(fecha_select)
                     adapterFecha.notifyDataSetChanged()
 

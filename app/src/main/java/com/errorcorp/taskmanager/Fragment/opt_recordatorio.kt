@@ -1,6 +1,10 @@
 package com.errorcorp.taskmanager.Fragment
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +12,9 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.Adapter.AdapterRecordatorio
+import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
@@ -17,10 +23,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.json.JSONObject
+import java.util.Calendar
 import java.util.Date
 import java.util.regex.Pattern
 
 class opt_recordatorio : Fragment() , View.OnClickListener {
+
+    //Dialog
+    private lateinit var dialog: Dialog
 
     //RecyclerView
     private lateinit var rvList: RecyclerView
@@ -37,6 +48,13 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_opt_recordatorio, container, false)
 
+        dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_loading)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        dialog.show()
+
         btnagregar = view.findViewById(R.id.btnagregar)
         btnagregar.setOnClickListener(this)
 
@@ -49,38 +67,20 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     list_recordatorio.clear()
 
-                    for (registroSnapshot in snapshot.children){
+                    Log.i("DATOS", snapshot.toString())
 
-                        val registro = registroSnapshot.value as? HashMap<*, *> ?: continue
+                    for ( snapshotchild in snapshot.children ){
+                        val cls: Recordatorio? = snapshotchild.getValue(Recordatorio::class.java)
 
-                        val id = registro["id"] as? String ?: ""
-                        val titulo = registro["titulo"] as? String ?: ""
-                        val descripcion = registro["descripcion"] as? String ?: ""
-
-                        val fechaModificacionSnapshot = registro["fechaModificacion"] as? HashMap<*, *>
-                        val fechaModificacionTimestamp = fechaModificacionSnapshot?.get("time") as? Long ?: 0
-                        val fechaModificacion = Date(fechaModificacionTimestamp)
-
-                        val fechasProgramadas = ArrayList<Date>()
-
-                        val jsonString = (registro["fechasProgramadas"]).toString()
-
-                        val dateStrings = jsonString.split("}, ").map { it.removePrefix("{").removeSuffix("}") }
-                        val dates = dateStrings.mapNotNull { parseDateString(it) }
-
-                        for (date in dates) {
-                            fechasProgramadas.add(date)
+                        if (cls != null) {
+                            list_recordatorio.add(cls)
                         }
-
-                        val recordatorio = Recordatorio(titulo, descripcion, fechaModificacion, fechasProgramadas)
-                        recordatorio.fechasProgramadas = fechasProgramadas
-                        recordatorio.id = id
-
-                        list_recordatorio.add(recordatorio)
-
-                        val adapterRecordatorio = context?.let { AdapterRecordatorio(list_recordatorio, it, getView()) }
-                        rvList.adapter = adapterRecordatorio
                     }
+
+                    val adapterRecordatorio = context?.let { AdapterRecordatorio(list_recordatorio, it, getView()) }
+                    rvList.adapter = adapterRecordatorio
+
+                    dialog.dismiss()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -89,19 +89,6 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
             })
 
         return view
-    }
-
-
-    fun parseDateString(dateString: String): Date? {
-        val pattern = Pattern.compile("time=(\\d+)")
-        val matcher = pattern.matcher(dateString)
-
-        if (matcher.find()) {
-            val timeMillis = matcher.group(1)?.toLongOrNull() ?: return null
-            return Date(timeMillis)
-        }
-
-        return null
     }
 
     override fun onClick(v: View?) {

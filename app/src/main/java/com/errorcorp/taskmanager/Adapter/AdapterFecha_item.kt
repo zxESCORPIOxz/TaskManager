@@ -15,15 +15,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class AdapterFecha(private val mValues: ArrayList<CustomDate>, private val ctx: Context) : RecyclerView.Adapter<AdapterFecha.ViewHolder>() {
+class AdapterFecha_item(private val mValues: ArrayList<CustomDate>, private val ctx: Context) : RecyclerView.Adapter<AdapterFecha_item.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_fecha, parent, false)
+            .inflate(R.layout.item_fecha_of_item_recordatorio, parent, false)
         return ViewHolder(view)
-    }
-    fun getList(): ArrayList<CustomDate>{
-        return mValues
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,11 +34,6 @@ class AdapterFecha(private val mValues: ArrayList<CustomDate>, private val ctx: 
         } else {
             holder.ivicon.setImageResource(R.drawable.ic_active)
         }
-
-        holder.btndelete.setOnClickListener {
-            mValues.removeAt(position)
-            notifyDataSetChanged()
-        }
     }
 
     override fun getItemCount(): Int {
@@ -52,7 +44,5 @@ class AdapterFecha(private val mValues: ArrayList<CustomDate>, private val ctx: 
         val ivicon: ImageView = view.findViewById(R.id.ivicon)
 
         val tvfecha: TextView = view.findViewById(R.id.tvfecha)
-
-        val btndelete: MaterialButton = view.findViewById(R.id.btndelete)
     }
 }

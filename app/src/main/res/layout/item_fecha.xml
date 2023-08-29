@@ -3,6 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/ivicon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:adjustViewBounds="true"
+        android:layout_alignTop="@id/tvfecha"
+        android:layout_alignBottom="@id/tvfecha"
+        android:src="@drawable/ic_active"/>
 
     <TextView
         android:id="@+id/tvfecha"
@@ -13,10 +22,9 @@
         android:hint="Fecha"
         android:textSize="@dimen/text_size"
         android:gravity="center_vertical"
-        android:drawableStart="@drawable/custom_date_icons"
         android:drawablePadding="5dp"
         android:background="@drawable/custom_input"
-        android:layout_alignParentStart="true"
+        android:layout_toRightOf="@id/ivicon"
         android:layout_toLeftOf="@id/btndelete"
         android:layout_centerVertical="true"
         android:textColorHint="@color/gray_middle"/>

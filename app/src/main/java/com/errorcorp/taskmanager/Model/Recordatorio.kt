@@ -7,17 +7,20 @@ class Recordatorio {
     var id: String = ""
     var titulo: String = ""
     var descripcion: String = ""
+    var categoria: String = ""
     var fechaModificacion: Date = Date()
-    var fechasProgramadas: ArrayList<Date> = ArrayList()
+    var fechasProgramadas: ArrayList<CustomDate> = ArrayList()
 
     constructor(
         titulo: String,
         descripcion: String,
+        categoria: String,
         fechaModificacion: Date,
-        fechasProgramadas: ArrayList<Date>
+        fechasProgramadas: ArrayList<CustomDate>
     ) {
         this.titulo = titulo
         this.descripcion = descripcion
+        this.categoria = categoria
         this.fechaModificacion = fechaModificacion
         this.fechasProgramadas = fechasProgramadas
     }
