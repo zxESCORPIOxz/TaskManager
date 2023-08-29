@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 if (documentSnapshot.exists()) {
                     val userData = documentSnapshot.data
                     val fullname = userData?.get("fullname")
+                    SharedPreferencesManager.setStringValue(Valor.DNI, userData?.get("dni").toString())
                     tvname.setText(fullname.toString())
                 } else {
                     tvname.visibility = View.GONE

@@ -1,15 +1,14 @@
 package com.errorcorp.taskmanager.Model
 
-import java.util.*
+import java.util.Date
 
 class Recordatorio {
-    var id: Int = 0
+
+    var id: String = ""
     var titulo: String = ""
     var descripcion: String = ""
     var fechaModificacion: Date = Date()
     var fechasProgramadas: ArrayList<Date> = ArrayList()
-    var archivosAdjuntos: ArrayList<String> = ArrayList()
-    var imagenes: ArrayList<String> = ArrayList()
 
     constructor(
         titulo: String,

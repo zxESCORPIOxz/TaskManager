@@ -2,6 +2,7 @@ package com.errorcorp.taskmanager.Util
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
 
 class MyApplication : Application() {
     companion object {
@@ -15,7 +16,7 @@ class MyApplication : Application() {
         fun getContext(): Context {
             return INSTANCE
         }
-
+//
 //        fun getDatabaseInstance(): AppDatabase {
 //            return DATABASE_INSTANCE
 //        }
@@ -24,10 +25,9 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-//        DATABASE_INSTANCE = Room.databaseBuilder(this, AppDatabase::class.java, "taskmasterdb")
+//        DATABASE_INSTANCE = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "taskmasterdb")
 //            .allowMainThreadQueries()
 //            .fallbackToDestructiveMigration()
-//            .addMigrations(AppDatabase.MIGRATION_1_2)
 //            .build()
     }
 }

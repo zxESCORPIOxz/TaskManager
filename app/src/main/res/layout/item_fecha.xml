@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvfecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:textColor="@color/gray_megadark"
+        android:hint="Fecha"
+        android:textSize="@dimen/text_size"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/custom_date_icons"
+        android:drawablePadding="5dp"
+        android:background="@drawable/custom_input"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/btndelete"
+        android:layout_centerVertical="true"
+        android:textColorHint="@color/gray_middle"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btndelete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="5dp"
+        android:backgroundTint="@color/gray_light"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:icon="@drawable/ic_remove"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/gray_megalight" />
+</RelativeLayout>

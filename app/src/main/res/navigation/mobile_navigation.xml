@@ -30,7 +30,15 @@
         android:id="@+id/nav_registrar"
         android:name="com.errorcorp.taskmanager.Fragment.frg_registrar"
         android:label="@string/frg_registrar"
-        tools:layout="@layout/fragment_frg_registrar"/>
+        tools:layout="@layout/fragment_frg_registrar">
+        <action
+            android:id="@+id/action_nav_registrar_to_nav_recordatorio"
+            app:destination="@id/nav_recordatorio"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
 
     <!--Calendario-->
     <fragment

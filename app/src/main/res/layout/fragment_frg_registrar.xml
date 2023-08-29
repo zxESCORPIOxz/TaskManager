@@ -13,12 +13,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".5"
+            android:layout_weight=".2"
             android:background="@drawable/rec_red_botton_deg"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".5"
+            android:layout_weight=".8"
             android:background="@color/gray_megalight"/>
     </LinearLayout>
     <RelativeLayout
@@ -41,85 +41,111 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tvname"
+            android:layout_above="@id/btnregistrar"
             android:background="@color/white"
             android:layout_marginHorizontal="35dp"
             android:layout_marginVertical="15dp"
             app:cardElevation="10dp"
             app:cardCornerRadius="30dp">
-            <RelativeLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp"
-                android:background="@color/white"
-                android:gravity="center_vertical">
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/anim"
+                android:background="@color/white">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:lottie_rawRes="@raw/anim_campana"
-                    app:lottie_autoPlay="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_above="@id/ettitle"/>
-                <EditText
-                    android:id="@+id/ettitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_above="@id/etdescription"
-                    android:textColor="@color/gray_megadark"
-                    android:hint="Titulo"
-                    android:textSize="@dimen/text_size"
-                    android:drawableStart="@drawable/custom_title_icons"
-                    android:drawablePadding="5dp"
-                    android:background="@drawable/custom_input"
-                    android:inputType="textAutoComplete"
-                    android:textColorHint="@color/gray_middle"/>
-                <EditText
-                    android:id="@+id/etdescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="100dp"
-                    android:layout_marginVertical="10dp"
-                    android:layout_above="@id/tvfecha"
-                    android:textColor="@color/gray_megadark"
-                    android:hint="Descripción"
-                    android:textSize="@dimen/text_size"
-                    android:gravity="top|start"
-                    android:drawableStart="@drawable/custom_description_icons"
-                    android:drawablePadding="5dp"
-                    android:background="@drawable/custom_input"
-                    android:inputType="textMultiLine"
-                    android:textColorHint="@color/gray_middle"/>
-                <TextView
-                    android:id="@+id/tvfecha"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_above="@id/btnregistrar"
-                    android:textColor="@color/gray_megadark"
-                    android:hint="Fecha"
-                    android:textSize="@dimen/text_size"
-                    android:gravity="center_vertical"
-                    android:drawableStart="@drawable/custom_date_icons"
-                    android:drawablePadding="5dp"
-                    android:background="@drawable/custom_input"
-                    android:textColorHint="@color/gray_middle"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnregistrar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="10dp"
-                    android:fontFamily="@font/raleway_semibold"
-                    android:text="Guardar recordatorio"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/orange"
-                    android:elegantTextHeight="true"
-                    android:elevation="10dp"
-                    app:cornerRadius="10dp"
-                    android:layout_alignParentBottom="true"
-                    />
-            </RelativeLayout>
+                    android:padding="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical">
+                    <EditText
+                        android:id="@+id/ettitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:textColor="@color/gray_megadark"
+                        android:hint="Titulo"
+                        android:textSize="@dimen/text_size"
+                        android:drawableStart="@drawable/custom_title_icons"
+                        android:drawablePadding="5dp"
+                        android:background="@drawable/custom_input"
+                        android:inputType="textAutoComplete"
+                        android:textColorHint="@color/gray_middle"/>
+                    <EditText
+                        android:id="@+id/etdescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="100dp"
+                        android:layout_marginVertical="10dp"
+                        android:textColor="@color/gray_megadark"
+                        android:hint="Descripción"
+                        android:textSize="@dimen/text_size"
+                        android:gravity="top|start"
+                        android:drawableStart="@drawable/custom_description_icons"
+                        android:drawablePadding="5dp"
+                        android:background="@drawable/custom_input"
+                        android:inputType="textMultiLine"
+                        android:textColorHint="@color/gray_middle"/>
+                    <RelativeLayout
+                        android:id="@+id/ctfechas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/raleway_semibold"
+                            android:text="Fechas"
+                            android:textColor="@color/gray_megadark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center_vertical"
+                            android:layout_alignTop="@id/btnaddfecha"
+                            android:layout_alignBottom="@id/btnaddfecha"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_toLeftOf="@id/btnaddfecha"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnaddfecha"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginHorizontal="5dp"
+                            android:backgroundTint="@color/gray_light"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:icon="@drawable/ic_add"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:iconTint="@color/gray_megalight" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvFechas"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/btnaddfecha"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_fecha"
+                            android:nestedScrollingEnabled="false"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
         </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnregistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:text="Guardar recordatorio"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/orange"
+            android:elegantTextHeight="true"
+            android:elevation="10dp"
+            app:cornerRadius="10dp"
+            android:layout_alignParentBottom="true"
+            />
     </RelativeLayout>
 </RelativeLayout>
