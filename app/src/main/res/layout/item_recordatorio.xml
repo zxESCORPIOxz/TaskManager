@@ -25,8 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/ivicon"
             android:layout_toLeftOf="@id/btnedit"
-            android:layout_alignTop="@id/ivicon"
-            android:layout_alignBottom="@id/ivicon"
             android:gravity="center_vertical"
             android:orientation="vertical">
             <TextView

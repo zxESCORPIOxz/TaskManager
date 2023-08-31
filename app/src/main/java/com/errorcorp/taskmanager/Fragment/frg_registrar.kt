@@ -2,12 +2,20 @@ package com.errorcorp.taskmanager.Fragment
 
 import android.animation.Animator
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,19 +28,17 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.errorcorp.taskmanager.Activity.MainActivity
 import com.errorcorp.taskmanager.Adapter.AdapterFecha
 import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
+import com.errorcorp.taskmanager.Util.NotificationReceiver
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Valor
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.FirebaseDatabase
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 class frg_registrar : Fragment() , View.OnClickListener {
 
@@ -184,6 +190,35 @@ class frg_registrar : Fragment() , View.OnClickListener {
                     recordatorio.fechaModificacion = Date()
                     recordatorio.fechasProgramadas = adapterFecha.getList()
 
+                    recordatorio.fechasProgramadas.forEachIndexed { index, date: CustomDate ->
+                        if (!date.recibido){
+                            val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                            val notificationIntent = Intent(requireContext(), NotificationReceiver::class.java)
+
+                            notificationIntent.putExtra("dni", SharedPreferencesManager.getStringValue(Valor.DNI).toString())
+                            notificationIntent.putExtra("id", recordatorio.id)
+                            notificationIntent.putExtra("positio", index.toString())
+                            notificationIntent.putExtra("titulo", recordatorio.titulo)
+                            notificationIntent.putExtra("descripcion", recordatorio.descripcion)
+                            notificationIntent.putExtra("fecha", recordatorio.fechaModificacion.toString())
+                            notificationIntent.putExtra("categoria", recordatorio.categoria)
+
+                            val pendingIntent = PendingIntent.getBroadcast(
+                                requireContext(),
+                                SharedPreferencesManager.getIdNotfication(Valor.ID_NOTIFICATION),
+                                notificationIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                            )
+
+                            val futureTimeInMillis = date.date.time
+                            alarmManager.setExact(
+                                AlarmManager.RTC_WAKEUP,
+                                futureTimeInMillis,
+                                pendingIntent
+                            )
+                        }
+                    }
+
                     FirebaseDatabase.getInstance()
                         .getReference("Recordatorio")
                         .child(SharedPreferencesManager.getStringValue(Valor.DNI).toString())
@@ -254,7 +289,26 @@ class frg_registrar : Fragment() , View.OnClickListener {
             }
         }
     }
+    fun drawableToBitmap(drawable: Drawable): Bitmap {
+        val bitmap: Bitmap
 
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+
+        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
+    }
     fun cleanSelectedCategory(){
         ivother.setBackgroundResource(R.drawable.ripple_butons_category)
         ivoffice.setBackgroundResource(R.drawable.ripple_butons_category)
@@ -284,6 +338,7 @@ class frg_registrar : Fragment() , View.OnClickListener {
                 val timePickerDialog = TimePickerDialog(context, { _, hourOfDay, minute ->
                     selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     selectedCalendar.set(Calendar.MINUTE, minute)
+                    selectedCalendar.set(Calendar.SECOND, 0)
 
                     selectedDate = selectedCalendar.time
 

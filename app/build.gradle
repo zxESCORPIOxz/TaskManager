@@ -76,4 +76,6 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.5.2")
     kapt("androidx.room:room-compiler:2.5.2")
 
+    //Notofication
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 }

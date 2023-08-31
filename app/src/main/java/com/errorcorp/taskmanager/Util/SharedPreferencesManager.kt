@@ -39,4 +39,11 @@ object SharedPreferencesManager {
     fun getIntValue(key: String): Int {
         return getSharedPreferences().getInt(key, 0)
     }
+
+    fun getIdNotfication(key: String): Int {
+        var id: Int = 0
+        id = getIntValue(key) + 1
+        setIntValue(key, id)
+        return id
+    }
 }

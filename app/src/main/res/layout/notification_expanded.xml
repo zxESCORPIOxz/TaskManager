@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/tvtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/raleway_semibold"
+        android:layout_alignParentStart="true"
+        android:text="Título"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        style="@style/TextAppearance.Compat.Notification.Title" />
+    <TextView
+        android:id="@+id/tvfecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/ivcategoria"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvtitle"
+        android:text="Fecha y hora"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.Compat.Notification"/>
+    <TextView
+        android:id="@+id/tvdescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvfecha"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/ivcategoria"
+        android:text="000000000000000000000000000000000000000000"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        style="@style/TextAppearance.Compat.Notification"/>
+
+    <ImageView
+        android:id="@+id/ivcategoria"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_drive"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

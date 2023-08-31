@@ -5,6 +5,8 @@
     <string name="close_sesion">Cerrar sesión</string>
     <string name="exit">Salir</string>
 
+    <string name="channel_recordatorio">CANAL_RECORDATORIO</string>
+
     <!--Opciones del menu-->
     <string name="opt_inicio">Inicio</string>
     <string name="opt_recordatorio">Recordatorio</string>

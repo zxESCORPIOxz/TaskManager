@@ -33,9 +33,9 @@ class AdapterFecha(private val mValues: ArrayList<CustomDate>, private val ctx: 
         val formattedDate = dateFormat.format(customDate.date)
         holder.tvfecha.setText(formattedDate)
         if ( customDate.recibido ) {
-            holder.ivicon.setImageResource(R.drawable.ic_inactive)
-        } else {
             holder.ivicon.setImageResource(R.drawable.ic_active)
+        } else {
+            holder.ivicon.setImageResource(R.drawable.ic_inactive)
         }
 
         holder.btndelete.setOnClickListener {

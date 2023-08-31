@@ -18,7 +18,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
@@ -38,10 +37,44 @@ class AdapterRecordatorio(
     //Dialog
     private lateinit var dialog: Dialog
 
+    private var mValuesMaster: ArrayList<Recordatorio> = ArrayList(mValues)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_recordatorio, parent, false)
         return ViewHolder(view)
+    }
+
+    fun filtradoByText(filtro: String?) {
+        mValues.clear()
+        mValues.addAll(mValuesMaster)
+        if (filtro!!.isNotEmpty()) {
+            val modelaux = ArrayList<Recordatorio>()
+            modelaux.addAll(mValues)
+            mValues.clear()
+            for (i in 0 until modelaux.size) {
+                if (modelaux.get(i).titulo.contains(filtro)) {
+                    mValues.add(modelaux[i])
+                }
+            }
+        }
+        notifyDataSetChanged()
+    }
+    fun filtradoByCategoria(filtro: String?) {
+        mValues.clear()
+        mValues.addAll(mValuesMaster)
+        if(!filtro.equals("all")) {
+            if (filtro!!.isNotEmpty()) {
+                val modelaux = ArrayList<Recordatorio>()
+                modelaux.addAll(mValues)
+                mValues.clear()
+                for (i in 0 until modelaux.size) {
+                    if (modelaux.get(i).categoria.contains(filtro)) {
+                        mValues.add(modelaux[i])
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged()
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val recordatorio = mValues[position]
