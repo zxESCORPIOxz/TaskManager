@@ -1,23 +1,15 @@
 package com.errorcorp.taskmanager.Fragment
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,13 +17,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.Adapter.AdapterFecha
 import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
+import com.errorcorp.taskmanager.Util.CustomDialog
 import com.errorcorp.taskmanager.Util.NotificationReceiver
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Valor
@@ -41,14 +34,6 @@ import java.util.Calendar
 import java.util.Date
 
 class frg_registrar : Fragment() , View.OnClickListener {
-
-    //Dialog
-    private lateinit var dialog: Dialog
-
-    //Lotties
-    private lateinit var loadAnimationView: LottieAnimationView
-    private lateinit var successAnimationView: LottieAnimationView
-    private lateinit var errorAnimationView: LottieAnimationView
 
     //RecyclerView
     private lateinit var rvFechas: RecyclerView
@@ -82,30 +67,17 @@ class frg_registrar : Fragment() , View.OnClickListener {
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_frg_registrar, container, false)
 
-        dialog = context?.let { Dialog(it) }!!
-        dialog.setContentView(R.layout.dialog_loading)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        loadAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfload)
-        successAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lfsuccess)
-        errorAnimationView = dialog.findViewById<LottieAnimationView>(R.id.lferror)
-
-        successAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
-            override fun onAnimationEnd(animation: Animator) {
-                dialog.dismiss()
+        CustomDialog.inicialization(requireContext())
+        CustomDialog.setAnimationEndListenerSuccess(object : CustomDialog.AnimationEndListener {
+            override fun onAnimationEnd() {
+                CustomDialog.dismiss()
                 Navigation.findNavController(requireView()).navigate(R.id.action_nav_registrar_to_nav_recordatorio)
             }
         })
-        errorAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
-            override fun onAnimationEnd(animation: Animator) {
-                dialog.dismiss()
+        CustomDialog.setAnimationEndListenerFailed(object : CustomDialog.AnimationEndListener {
+            override fun onAnimationEnd() {
+                CustomDialog.dismiss()
             }
         })
 
@@ -181,8 +153,7 @@ class frg_registrar : Fragment() , View.OnClickListener {
                 if (ettitle.text.isNotEmpty() &&
                     etdescription.text.isNotEmpty() &&
                     adapterFecha.getList().size != 0){
-                    dialog.setCancelable(false)
-                    dialog.show()
+                    CustomDialog.showLoad()
                     if (recordatorio.id.isEmpty())
                         recordatorio.id = FirebaseDatabase.getInstance().getReference("Recordatorio").push().getKey().toString()
                     recordatorio.titulo = ettitle.text.toString()
@@ -225,16 +196,10 @@ class frg_registrar : Fragment() , View.OnClickListener {
                         .child(recordatorio.id)
                         .setValue(recordatorio)
                         .addOnSuccessListener {
-                            loadAnimationView.pauseAnimation()
-                            loadAnimationView.visibility = View.GONE
-                            successAnimationView.visibility = View.VISIBLE
-                            successAnimationView.playAnimation()
+                            CustomDialog.onSuccess()
                         }
                         .addOnFailureListener {
-                            loadAnimationView.pauseAnimation()
-                            loadAnimationView.visibility = View.GONE
-                            errorAnimationView.visibility = View.VISIBLE
-                            errorAnimationView.playAnimation()
+                            CustomDialog.onFailed()
                         }
                 } else {
                     if (ettitle.text.isEmpty()) {
@@ -288,26 +253,6 @@ class frg_registrar : Fragment() , View.OnClickListener {
                 ivfacebook.setBackgroundResource(R.drawable.ripple_butons_category_on)
             }
         }
-    }
-    fun drawableToBitmap(drawable: Drawable): Bitmap {
-        val bitmap: Bitmap
-
-        if (drawable is BitmapDrawable) {
-            if (drawable.bitmap != null) {
-                return drawable.bitmap
-            }
-        }
-
-        bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
-        } else {
-            Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        }
-
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
     }
     fun cleanSelectedCategory(){
         ivother.setBackgroundResource(R.drawable.ripple_butons_category)

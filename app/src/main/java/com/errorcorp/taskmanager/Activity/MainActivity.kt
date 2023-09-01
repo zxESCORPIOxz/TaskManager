@@ -32,7 +32,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.errorcorp.taskmanager.Model.Archivo
 import com.errorcorp.taskmanager.R
+import com.errorcorp.taskmanager.Util.MyApplication
 import com.errorcorp.taskmanager.Util.NotificationReceiver
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Valor
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_inicio,
                 R.id.nav_recordatorio,
+                R.id.nav_archivos,
                 R.id.nav_calendario,
                 R.id.nav_alarma,
                 R.id.nav_musica,

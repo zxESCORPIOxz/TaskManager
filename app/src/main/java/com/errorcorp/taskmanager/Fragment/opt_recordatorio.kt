@@ -17,9 +17,11 @@ import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.errorcorp.taskmanager.Activity.MainActivity
 import com.errorcorp.taskmanager.Adapter.AdapterRecordatorio
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
+import com.errorcorp.taskmanager.Util.CustomDialog
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Util
 import com.errorcorp.taskmanager.Util.Valor
@@ -32,9 +34,6 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
 
     //SearchView
     private lateinit var svbuscar: SearchView
-
-    //Dialog
-    private lateinit var dialog: Dialog
 
     //RecyclerView
     private lateinit var rvList: RecyclerView
@@ -63,12 +62,19 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_opt_recordatorio, container, false)
 
-        dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_loading)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCancelable(false)
-        dialog.show()
+
+
+        CustomDialog.inicialization(requireContext())
+        CustomDialog.setAnimationEndListenerSuccess(object : CustomDialog.AnimationEndListener {
+            override fun onAnimationEnd() {
+                CustomDialog.dismiss()
+            }
+        })
+        CustomDialog.setAnimationEndListenerFailed(object : CustomDialog.AnimationEndListener {
+            override fun onAnimationEnd() {
+                listRecordatorios(view)
+            }
+        })
 
         ivall = view.findViewById(R.id.ivall)
         ivall.setOnClickListener(this)
@@ -92,6 +98,13 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
 
         rvList = view.findViewById(R.id.rvList)
 
+        listRecordatorios(view)
+
+        return view
+    }
+
+    fun listRecordatorios(view:View) {
+        CustomDialog.showLoad()
         FirebaseDatabase.getInstance()
             .getReference("Recordatorio")
             .child(SharedPreferencesManager.getStringValue(Valor.DNI).toString())
@@ -112,29 +125,27 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
                     adapterRecordatorio = AdapterRecordatorio(list_recordatorio, requireContext(), getView())
                     rvList.adapter = adapterRecordatorio
 
-                    dialog.dismiss()
+                    svbuscar = view.findViewById(R.id.svbuscar)
+                    svbuscar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            cleanSelectedCategory()
+                            ivall.setBackgroundResource(R.drawable.ripple_butons_category)
+                            adapterRecordatorio.filtradoByText(newText)
+                            return false
+                        }
+                    })
+
+                    CustomDialog.onSuccess()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // Manejar el error
+                    CustomDialog.onFailed()
                 }
             })
-
-        svbuscar = view.findViewById(R.id.svbuscar)
-        svbuscar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                cleanSelectedCategory()
-                ivall.setBackgroundResource(R.drawable.ripple_butons_category)
-                adapterRecordatorio.filtradoByText(newText)
-                return false
-            }
-        })
-
-        return view
     }
 
     override fun onClick(v: View?) {

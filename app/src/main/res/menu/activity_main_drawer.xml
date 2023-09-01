@@ -14,6 +14,10 @@
             android:icon="@drawable/ic_opt_recordatorio"
             android:title="@string/opt_recordatorio" />
         <item
+            android:id="@+id/nav_archivos"
+            android:icon="@drawable/ic_archivos"
+            android:title="@string/opt_archivos" />
+        <item
             android:id="@+id/nav_calendario"
             android:icon="@drawable/ic_opt_calendario"
             android:title="@string/opt_calendario" />
