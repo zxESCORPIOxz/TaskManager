@@ -104,7 +104,7 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
     }
 
     fun listRecordatorios(view:View) {
-        CustomDialog.showLoad()
+        CustomDialog.showLoad(R.raw.anim_load_record)
         FirebaseDatabase.getInstance()
             .getReference("Recordatorio")
             .child(SharedPreferencesManager.getStringValue(Valor.DNI).toString())
@@ -139,7 +139,7 @@ class opt_recordatorio : Fragment() , View.OnClickListener {
                         }
                     })
 
-                    CustomDialog.onSuccess()
+                    CustomDialog.onSuccess(R.raw.anim_on_download)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.CustomDialog
 import com.errorcorp.taskmanager.Util.MyApplication
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
+import com.errorcorp.taskmanager.Util.Util
 import com.errorcorp.taskmanager.Util.Valor
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,9 +38,27 @@ class opt_archivos : Fragment(), View.OnClickListener {
 
     private var selectedFileUri: Uri? = null
 
+    //SearchView
+    private lateinit var svbuscar: SearchView
+
     //Imageview
     private lateinit var ivsubmit: ImageView
     private lateinit var ivicon: ImageView
+
+    private lateinit var ivall: ImageView
+    private lateinit var ivaab: ImageView
+    private lateinit var ivvideo: ImageView
+    private lateinit var ivmusic: ImageView
+    private lateinit var ivimage: ImageView
+    private lateinit var ivrar: ImageView
+    private lateinit var ivzip: ImageView
+    private lateinit var ivword: ImageView
+    private lateinit var ivexcel: ImageView
+    private lateinit var ivppt: ImageView
+    private lateinit var ivapk: ImageView
+    private lateinit var ivpdf: ImageView
+    private lateinit var ivtxt: ImageView
+    private lateinit var ivfile: ImageView
 
     //Button
     private lateinit var btnsubir: FloatingActionButton
@@ -85,12 +105,44 @@ class opt_archivos : Fragment(), View.OnClickListener {
         ivsubmit = view.findViewById(R.id.ivsubmit)
         ivsubmit.setOnClickListener(this)
 
+
+        ivall = view.findViewById(R.id.ivall)
+        ivall.setOnClickListener(this)
+        ivaab = view.findViewById(R.id.ivaab)
+        ivaab.setOnClickListener(this)
+        ivvideo = view.findViewById(R.id.ivvideo)
+        ivvideo.setOnClickListener(this)
+        ivmusic = view.findViewById(R.id.ivmusic)
+        ivmusic.setOnClickListener(this)
+        ivimage = view.findViewById(R.id.ivimage)
+        ivimage.setOnClickListener(this)
+        ivrar = view.findViewById(R.id.ivrar)
+        ivrar.setOnClickListener(this)
+        ivzip = view.findViewById(R.id.ivzip)
+        ivzip.setOnClickListener(this)
+        ivword = view.findViewById(R.id.ivword)
+        ivword.setOnClickListener(this)
+        ivexcel = view.findViewById(R.id.ivexcel)
+        ivexcel.setOnClickListener(this)
+        ivppt = view.findViewById(R.id.ivppt)
+        ivppt.setOnClickListener(this)
+        ivapk = view.findViewById(R.id.ivapk)
+        ivapk.setOnClickListener(this)
+        ivpdf = view.findViewById(R.id.ivpdf)
+        ivpdf.setOnClickListener(this)
+        ivtxt = view.findViewById(R.id.ivtxt)
+        ivtxt.setOnClickListener(this)
+        ivfile = view.findViewById(R.id.ivfile)
+        ivfile.setOnClickListener(this)
+
         btnsubir = view.findViewById(R.id.btnsubir)
         btnsubir.setOnClickListener(this)
         btnagregar = view.findViewById(R.id.btnagregar)
         btnagregar.setOnClickListener(this)
         btncancel = view.findViewById(R.id.btncancel)
         btncancel.setOnClickListener(this)
+
+        svbuscar = view.findViewById(R.id.svbuscar)
 
         listFilesInFirebaseStorage()
 
@@ -118,61 +170,12 @@ class opt_archivos : Fragment(), View.OnClickListener {
                         val fileExtension = MimeTypeMap.getFileExtensionFromUrl(displayName)
                         tvtitle.setText(displayName)
                         tvsize.setText(formatFileSize(size))
-                        setIcon(fileExtension)
+                        ivicon.setImageResource(Util.getResByExtension(fileExtension))
                     }
                 }
             }
         } else {
             ctfile.visibility = View.GONE
-        }
-    }
-    fun setIcon(contentType: String?) {
-        when (contentType) {
-            "pdf" -> {
-                ivicon.setImageResource(R.drawable.ic_pdf)
-            }
-            "doc" -> {
-                ivicon.setImageResource(R.drawable.ic_word)
-            }
-            "docx" -> {
-                ivicon.setImageResource(R.drawable.ic_word)
-            }
-            "xls" -> {
-                ivicon.setImageResource(R.drawable.ic_excel)
-            }
-            "xlsx" -> {
-                ivicon.setImageResource(R.drawable.ic_excel)
-            }
-            "ppt" -> {
-                ivicon.setImageResource(R.drawable.ic_power_point)
-            }
-            "pptx" -> {
-                ivicon.setImageResource(R.drawable.ic_power_point)
-            }
-            "zip" -> {
-                ivicon.setImageResource(R.drawable.ic_zip)
-            }
-            "rar" -> {
-                ivicon.setImageResource(R.drawable.ic_rar)
-            }
-            "svg" -> {
-                ivicon.setImageResource(R.drawable.ic_imagenes)
-            }
-            "png" -> {
-                ivicon.setImageResource(R.drawable.ic_imagenes)
-            }
-            "jpg" -> {
-                ivicon.setImageResource(R.drawable.ic_imagenes)
-            }
-            "apk" -> {
-                ivicon.setImageResource(R.drawable.ic_apk)
-            }
-            "txt" -> {
-                ivicon.setImageResource(R.drawable.ic_txt)
-            }
-            else -> {
-                ivicon.setImageResource(R.drawable.ic_file)
-            }
         }
     }
     override fun onClick(v: View?) {
@@ -193,7 +196,94 @@ class opt_archivos : Fragment(), View.OnClickListener {
             (R.id.ivsubmit) -> {
                 openFilePicker()
             }
+            (R.id.ivall) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_all)
+                ivall.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivaab) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_aab)
+                ivaab.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivvideo) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_video)
+                ivvideo.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivmusic) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_music)
+                ivmusic.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivimage) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_imagenes)
+                ivimage.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivrar) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_rar)
+                ivrar.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivzip) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_zip)
+                ivzip.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivword) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_word)
+                ivword.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivexcel) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_excel)
+                ivexcel.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivppt) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_power_point)
+                ivppt.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivapk) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_apk)
+                ivapk.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivpdf) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_pdf)
+                ivpdf.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivtxt) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_txt)
+                ivtxt.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
+            (R.id.ivfile) -> {
+                cleanSelectedCategory()
+                adapterArchivo.filtradoByCategoria(R.drawable.ic_file)
+                ivfile.setBackgroundResource(R.drawable.ripple_butons_category)
+            }
         }
+    }
+
+    fun cleanSelectedCategory(){
+        ivall.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivaab.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivvideo.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivmusic.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivimage.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivrar.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivzip.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivword.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivexcel.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivppt.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivapk.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivpdf.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivtxt.setBackgroundResource(R.drawable.ripple_butons_category_on)
+        ivfile.setBackgroundResource(R.drawable.ripple_butons_category_on)
     }
 
     private fun openFilePicker() {
@@ -202,11 +292,10 @@ class opt_archivos : Fragment(), View.OnClickListener {
         filePickerLauncher.launch(intent)
     }
 
-
     private fun uploadFileToFirebase() {
         if (selectedFileUri != null) {
             CustomDialog.inicialization(requireContext())
-            CustomDialog.showLoad()
+            CustomDialog.showLoad(R.raw.anim_upload_file)
             CustomDialog.setAnimationEndListenerSuccess(object : CustomDialog.AnimationEndListener {
                 override fun onAnimationEnd() {
                     CustomDialog.dismiss()
@@ -233,7 +322,7 @@ class opt_archivos : Fragment(), View.OnClickListener {
                     archivo.nombre = it.storage.name
                     archivo.url = it.storage.downloadUrl.toString()
                     archivo.patch = it.storage.path
-                    val fileFormat = getFormatFromContentType(it.metadata!!.contentType)
+                    val fileFormat = MimeTypeMap.getFileExtensionFromUrl(tvtitle.text.toString())
                     archivo.extension = fileFormat
                     archivo.sizeBytes = it.metadata!!.sizeBytes.toInt()
                     archivo.sizeFormat = formatFileSize(it.metadata!!.sizeBytes)
@@ -262,58 +351,21 @@ class opt_archivos : Fragment(), View.OnClickListener {
 
         rvList.adapter = adapterArchivo
         adapterArchivo.notifyDataSetChanged()
+
+        svbuscar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                cleanSelectedCategory()
+                ivall.setBackgroundResource(R.drawable.ripple_butons_category)
+                adapterArchivo.filtradoByText(newText)
+                return false
+            }
+        })
     }
 
-    private fun getFormatFromContentType(contentType: String?): String {
-        when (contentType) {
-            "application/pdf" -> {
-                return "pdf"
-            }
-            "application/msword" -> {
-                return "doc"
-            }
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" -> {
-                return "docx"
-            }
-            "application/vnd.ms-excel" -> {
-                return "xls"
-            }
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -> {
-                return "xlsx"
-            }
-            "application/vnd.ms-powerpoint" -> {
-                return "ppt"
-            }
-            "application/vnd.openxmlformats-officedocument.presentationml.presentation" -> {
-                return "pptx"
-            }
-            "application/zip" -> {
-                return "zip"
-            }
-            "application/x-rar-compressed" -> {
-                return "rar"
-            }
-            "application/rar" -> {
-                return "rar"
-            }
-            "image/svg+xml" -> {
-                return "svg"
-            }
-            "image/png" -> {
-                return "png"
-            }
-            "image/jpeg" -> {
-                return "jpg"
-            }
-            "application/vnd.android.package-archive" -> {
-                return "apk"
-            }
-            "text/plain" -> {
-                return "txt"
-            }
-            else -> return ""
-        }
-    }
 
     private fun formatFileSize(sizeBytes: Long): String {
         val units = arrayOf("B", "KB", "MB", "GB", "TB")

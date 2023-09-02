@@ -72,8 +72,8 @@
             android:value="@string/channel_recordatorio" />
 
         <receiver android:name=".Util.NotificationReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.example.alarm"/>
                 <category android:name="android.intent.category.DEFAULT"/>

@@ -60,11 +60,26 @@ object CustomDialog {
         dialog.show()
     }
 
+    fun showLoad(res: Int){
+        loadAnimationView.setAnimation(res)
+        loadAnimationView.visibility = View.VISIBLE
+        successAnimationView.visibility = View.GONE
+        errorAnimationView.visibility = View.GONE
+        dialog.show()
+    }
+
     fun dismiss() {
         loadAnimationView.visibility = View.VISIBLE
         successAnimationView.visibility = View.GONE
         errorAnimationView.visibility = View.GONE
         dialog.dismiss()
+    }
+
+    fun onSuccess(res: Int){
+        successAnimationView.setAnimation(res)
+        loadAnimationView.visibility = View.GONE
+        successAnimationView.visibility = View.VISIBLE
+        successAnimationView.playAnimation()
     }
 
     fun onSuccess(){

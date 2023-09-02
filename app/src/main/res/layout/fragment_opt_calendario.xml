@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/side_nav_bar"
     tools:context=".Fragment.opt_calendario">
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:headerColor="@color/gray_dark"
+        app:headerLabelColor="@color/white"
+        app:pagesColor="@color/gray_megadark"
+        app:selectionBetweenMonthsEnabled="true"
+        app:selectionColor="@color/red"
+        app:selectionLabelColor="@color/white"
+        app:daysLabelsColor="@color/white"
+        app:todayLabelColor="@color/green"
+        app:highlightedDaysLabelsColor="@color/orange"
+        app:anotherMonthsDaysLabelsColor="@color/gray_middle"
+        />
 
-</FrameLayout>
+</RelativeLayout>

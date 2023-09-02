@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_inactive"
+                android:src="@drawable/ic_all"
                 android:background="@drawable/ripple_butons_category"
                 android:padding="3dp"/>
             <ImageView

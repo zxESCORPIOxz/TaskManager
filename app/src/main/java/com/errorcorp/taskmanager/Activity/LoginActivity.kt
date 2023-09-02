@@ -18,6 +18,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.CustomDialog
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
+import com.errorcorp.taskmanager.Util.Util
 import com.errorcorp.taskmanager.Util.Valor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -72,11 +73,26 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
                 SharedPreferencesManager.setBooleanValue(Valor.CB_RECORDARME, isChecked)
             }
         }
-        if (SharedPreferencesManager.getBooleanValue(Valor.CB_RECORDARME)){
-            cbrecordarme.isChecked = true
-            etmail.setText(SharedPreferencesManager.getStringValue(Valor.LOG_USER))
-            etpass.setText(SharedPreferencesManager.getStringValue(Valor.LOG_PASS))
-            validateUser()
+        if(Util.networkvalidate()) {
+            if (SharedPreferencesManager.getBooleanValue(Valor.CB_RECORDARME)) {
+                cbrecordarme.isChecked = true
+                etmail.setText(SharedPreferencesManager.getStringValue(Valor.LOG_USER))
+                etpass.setText(SharedPreferencesManager.getStringValue(Valor.LOG_PASS))
+                validateUser()
+            }
+        } else {
+            CustomDialog.inicialization(this)
+            CustomDialog.setAnimationEndListenerSuccess(object : CustomDialog.AnimationEndListener {
+                override fun onAnimationEnd() {
+                    if(Util.networkvalidate()) {
+                        goToActivity(LoginActivity())
+                    } else {
+                        CustomDialog.onSuccess(R.raw.anim_internet_off)
+                    }
+                }
+            })
+            CustomDialog.showLoad()
+            CustomDialog.onSuccess(R.raw.anim_internet_off)
         }
     }
 
@@ -84,8 +100,10 @@ class LoginActivity : AppCompatActivity() , View.OnClickListener {
         val intent = Intent(this, activity::class.java)
         intent.putExtra("mail", etmail.text.toString())
         startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-        finish()
+        if (activity !is LoginActivity) {
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            finish()
+        }
     }
 
     override fun onClick(v: View?) {

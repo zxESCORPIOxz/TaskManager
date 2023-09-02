@@ -3,10 +3,17 @@ package com.errorcorp.taskmanager.Util
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.room.Room
+import com.errorcorp.taskmanager.Activity.LoginActivity
+import com.errorcorp.taskmanager.Activity.SplashActivity
+import com.errorcorp.taskmanager.R
 
 class MyApplication : Application() {
     companion object {
@@ -30,7 +37,6 @@ class MyApplication : Application() {
             return DATABASE_INSTANCE
         }
     }
-
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
