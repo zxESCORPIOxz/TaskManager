@@ -12,6 +12,7 @@
     <string name="opt_recordatorio">Recordatorio</string>
     <string name="opt_archivos">Archivos</string>
     <string name="opt_calendario">Calendario</string>
+    <string name="opt_qrs">QR\'s</string>
     <string name="opt_alarma">Alarma</string>
     <string name="opt_musica">Música</string>
 

@@ -26,6 +26,6 @@ interface ArchivoDao {
     fun getArchivoByNombre(nombre: String): Archivo?
 
     @Transaction
-    @Query("SELECT COUNT(*) FROM Archivo")
+    @Query("SELECT COUNT(*) FROM archivo")
     fun getCount(): Int
 }

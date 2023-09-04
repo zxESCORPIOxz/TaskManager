@@ -2,19 +2,18 @@ package com.errorcorp.taskmanager.Fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.SearchView
 import android.widget.TextView
@@ -76,6 +75,9 @@ class opt_archivos : Fragment(), View.OnClickListener {
     private lateinit var ctagregar: RelativeLayout
     private lateinit var ctfile: RelativeLayout
 
+    //LinearLayout
+    private lateinit var ctfilter: LinearLayout
+
     //ArrayList
     private var list_Archivo: ArrayList<Archivo> = ArrayList()
 
@@ -90,6 +92,8 @@ class opt_archivos : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_opt_archivos, container, false)
+
+        ctfilter = view.findViewById(R.id.ctfilter)
 
         ctagregar = view.findViewById(R.id.ctagregar)
         ctfile = view.findViewById(R.id.ctfile)
@@ -181,7 +185,8 @@ class opt_archivos : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             (R.id.btnsubir) -> {
-                ctagregar.visibility = View.VISIBLE
+                Util.collapse(ctfilter)
+                Util.expand(ctagregar)
             }
             (R.id.btnagregar) -> {
                 if(etname.text.isNotEmpty()){
@@ -191,7 +196,8 @@ class opt_archivos : Fragment(), View.OnClickListener {
                 }
             }
             (R.id.btncancel) -> {
-                ctagregar.visibility = View.GONE
+                Util.expand(ctfilter)
+                Util.collapse(ctagregar)
             }
             (R.id.ivsubmit) -> {
                 openFilePicker()

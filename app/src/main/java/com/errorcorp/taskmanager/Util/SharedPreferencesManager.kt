@@ -46,4 +46,20 @@ object SharedPreferencesManager {
         setIntValue(key, id)
         return id
     }
+
+    fun getNameScanned(format: Int): String {
+        var id: Int = 0
+        id = getIntValue("numscanned") + 1
+        setIntValue("numscanned", id)
+        if (Util.isFormat2D(format))
+            return "QR Escaneado " + id
+        else
+            return "BarCode escaneado " + id
+    }
+    fun getNameCreate(): String {
+        var id: Int = 0
+        id = getIntValue("numcreate") + 1
+        setIntValue("numcreate", id)
+        return "QR Creado " + id
+    }
 }

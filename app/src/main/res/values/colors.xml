@@ -9,9 +9,11 @@
     <color name="gray_megadark">#1A1C20</color>
 
     <color name="orange">#F38028</color>
-    <color name="blue">#2C69E2</color>
-    <color name="red">#FF1203</color>
-    <color name="green">#25B107</color>
+    <color name="blue">#10589A</color>
+    <color name="red">#E13834</color>
+    <color name="green">#1DB260</color>
+    <color name="yellow">#FBC02D</color>
+    <color name="pink">#D51A2A</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

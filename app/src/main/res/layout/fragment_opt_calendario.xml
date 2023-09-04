@@ -4,22 +4,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/gray_megalight"
     tools:context=".Fragment.opt_calendario">
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:headerColor="@color/gray_dark"
+        android:layout_alignParentTop="true"
+        app:headerColor="@color/gray_megadark"
         app:headerLabelColor="@color/white"
-        app:pagesColor="@color/gray_megadark"
+        app:pagesColor="@color/gray_megalight"
         app:selectionBetweenMonthsEnabled="true"
         app:selectionColor="@color/red"
         app:selectionLabelColor="@color/white"
-        app:daysLabelsColor="@color/white"
-        app:todayLabelColor="@color/green"
+        app:daysLabelsColor="@color/gray_megadark"
+        app:todayLabelColor="@color/blue"
         app:highlightedDaysLabelsColor="@color/orange"
         app:anotherMonthsDaysLabelsColor="@color/gray_middle"
         />
+    <RelativeLayout
+        android:id="@+id/ctlabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendarView"
+        android:background="@color/gray_megadark"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/tvfecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/raleway_semibold"
+            android:layout_toLeftOf="@id/btnadd"
+            android:text="Fechaselect"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnadd"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:backgroundTint="@color/orange"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/white" />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ctlabel"
+        android:layout_alignParentBottom="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_calendar"/>
 
 </RelativeLayout>

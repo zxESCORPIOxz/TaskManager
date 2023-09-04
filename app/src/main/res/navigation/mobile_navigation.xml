@@ -38,6 +38,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_nav_registrar_to_nav_calendario"
+            app:destination="@id/nav_calendario"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <!--Archivos-->
@@ -52,7 +59,22 @@
         android:id="@+id/nav_calendario"
         android:name="com.errorcorp.taskmanager.Fragment.opt_calendario"
         android:label="@string/opt_calendario"
-        tools:layout="@layout/fragment_opt_calendario" />
+        tools:layout="@layout/fragment_opt_calendario" >
+        <action
+            android:id="@+id/action_nav_calendario_to_nav_registrar"
+            app:destination="@id/nav_registrar"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <!--QR's-->
+    <fragment
+        android:id="@+id/nav_qrs"
+        android:name="com.errorcorp.taskmanager.Fragment.opt_qrs"
+        android:label="@string/opt_qrs"
+        tools:layout="@layout/fragment_opt_qrs" />
 
     <!--Alarma-->
     <fragment

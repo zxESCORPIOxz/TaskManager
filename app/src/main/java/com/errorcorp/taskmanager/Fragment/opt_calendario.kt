@@ -1,14 +1,17 @@
 package com.errorcorp.taskmanager.Fragment
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
+import com.errorcorp.taskmanager.Adapter.AdapterCalendario
 import com.errorcorp.taskmanager.Model.CustomDate
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
@@ -16,46 +19,65 @@ import com.errorcorp.taskmanager.Util.CustomDialog
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Util
 import com.errorcorp.taskmanager.Util.Valor
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.Calendar
+import java.util.Date
 
 class opt_calendario : Fragment() {
 
     //CalendarView
     private lateinit var calendarView: CalendarView
+    private lateinit var tvfecha: TextView
 
     //ArrayList
     private var list_recordatorio = ArrayList<Recordatorio>()
 
     private val daysSelected = ArrayList<Calendar>()
+
     private val events = mutableListOf<EventDay>()
+
+    //RecyclerView
+    private lateinit var rvList: RecyclerView
+
+    //AdapterRecordatorio
+    private lateinit var adapterCalendario: AdapterCalendario
+
+    //Button
+    private lateinit var btnadd: MaterialButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view:View = inflater.inflate(R.layout.fragment_opt_calendario, container, false)
 
-        calendarView = view.findViewById<CalendarView>(R.id.calendarView)
+        rvList = view.findViewById(R.id.rvList)
+
+        btnadd = view.findViewById(R.id.btnadd)
+        btnadd.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_nav_calendario_to_nav_registrar)
+        }
+
+        tvfecha = view.findViewById(R.id.tvfecha)
+
+        calendarView = view.findViewById(R.id.calendarView)
 
         calendarView.setSelectionBackground(R.drawable.rec_red_orange)
 
         calendarView.setOnDayClickListener(object : OnDayClickListener {
             override fun onDayClick(eventDay: EventDay) {
                 val selectedDay = eventDay.calendar
-                daysSelected.add(selectedDay)
 
-                calendarView.setHighlightedDays(daysSelected)
+                adapterCalendario.filtradoByFecha(selectedDay)
 
                 val day = selectedDay.get(Calendar.DAY_OF_MONTH)
                 val month = selectedDay.get(Calendar.MONTH) + 1
                 val year = selectedDay.get(Calendar.YEAR)
 
-                val formattedDate = String.format("%02d/%02d/%04d", day, month, year)
-
-                Util.showToast(formattedDate+" - "+calendarView.selectedDates.size)
+                tvfecha.setText(String.format("%02d/%02d/%04d", day, month, year))
             }
         })
         listRecordatorios()
@@ -65,14 +87,17 @@ class opt_calendario : Fragment() {
     fun listRecordatorios() {
         CustomDialog.inicialization(requireContext())
         CustomDialog.showLoad(R.raw.anim_load_record)
+        CustomDialog.setAnimationEndListenerSuccess(object : CustomDialog.AnimationEndListener {
+            override fun onAnimationEnd() {
+                CustomDialog.dismiss()
+            }
+        })
         FirebaseDatabase.getInstance()
             .getReference("Recordatorio")
             .child(SharedPreferencesManager.getStringValue(Valor.DNI).toString())
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     list_recordatorio.clear()
-
-                    Log.i("DATOS", snapshot.toString())
 
                     for ( snapshotchild in snapshot.children ){
                         val cls: Recordatorio? = snapshotchild.getValue(Recordatorio::class.java)
@@ -83,16 +108,29 @@ class opt_calendario : Fragment() {
                             cls.fechasProgramadas.forEach { e:CustomDate ->
                                 val calendar = Calendar.getInstance()
                                 calendar.time = e.date
-                                Util.showToast( e.date.year.toString() + "-" + e.date.month + "-" + e.date.day)
                                 daysSelected.add(calendar)
-
                                 events.add(EventDay(calendar, Util.getResByCategory(cls.categoria)))
                             }
                         }
                     }
                     calendarView.setHighlightedDays(daysSelected)
                     calendarView.setEvents(events)
-                    CustomDialog.dismiss()
+
+                    list_recordatorio.reverse()
+                    adapterCalendario = AdapterCalendario(list_recordatorio, requireContext(), rvList)
+                    rvList.adapter = adapterCalendario
+
+                    val calendar = Calendar.getInstance()
+                    calendar.time = Date()
+                    adapterCalendario.filtradoByFecha(calendar)
+
+                    val day = calendar.get(Calendar.DAY_OF_MONTH)
+                    val month = calendar.get(Calendar.MONTH) + 1
+                    val year = calendar.get(Calendar.YEAR)
+
+                   tvfecha.setText(String.format("%02d/%02d/%04d", day, month, year))
+
+                    CustomDialog.onSuccess(R.raw.anim_on_download)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

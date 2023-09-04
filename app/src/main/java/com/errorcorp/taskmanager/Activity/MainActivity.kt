@@ -1,41 +1,22 @@
 package com.errorcorp.taskmanager.Activity
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
-import android.widget.RemoteViews
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.errorcorp.taskmanager.Model.Archivo
 import com.errorcorp.taskmanager.R
-import com.errorcorp.taskmanager.Util.MyApplication
-import com.errorcorp.taskmanager.Util.NotificationReceiver
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
 import com.errorcorp.taskmanager.Util.Valor
 import com.errorcorp.taskmanager.databinding.ActivityMainBinding
@@ -114,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_recordatorio,
                 R.id.nav_archivos,
                 R.id.nav_calendario,
+                R.id.nav_qrs,
                 R.id.nav_alarma,
                 R.id.nav_musica,
                 R.id.nav_configuracion

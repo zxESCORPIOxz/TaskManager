@@ -22,6 +22,10 @@
             android:icon="@drawable/ic_opt_calendario"
             android:title="@string/opt_calendario" />
         <item
+            android:id="@+id/nav_qrs"
+            android:icon="@drawable/ic_opt_qrs"
+            android:title="@string/opt_qrs" />
+        <item
             android:id="@+id/nav_alarma"
             android:icon="@drawable/ic_opt_alarma"
             android:title="@string/opt_alarma" />

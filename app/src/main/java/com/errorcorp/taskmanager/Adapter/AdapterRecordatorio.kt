@@ -1,13 +1,10 @@
 package com.errorcorp.taskmanager.Adapter
 
-import android.animation.LayoutTransition
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.errorcorp.taskmanager.Model.Recordatorio
 import com.errorcorp.taskmanager.R
 import com.errorcorp.taskmanager.Util.SharedPreferencesManager
+import com.errorcorp.taskmanager.Util.Util
 import com.errorcorp.taskmanager.Util.Valor
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.FirebaseDatabase
@@ -86,38 +84,13 @@ class AdapterRecordatorio(
         holder.tvdate.setText(formattedDate)
 
         holder.rvFechas.adapter = AdapterFecha_item(recordatorio.fechasProgramadas, ctx)
-
-        when(recordatorio.categoria){
-            ("other") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_other)
-            }
-            ("office") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_office)
-            }
-            ("gmail") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_gmail)
-            }
-            ("github") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_github)
-            }
-            ("drive") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_drive)
-            }
-            ("whatsapp") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_whatsapp)
-            }
-            ("facebook") -> {
-                holder.ivicon.setImageResource(R.drawable.ic_facebook)
-            }
-        }
-        holder.ctitem.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        holder.ivicon.setImageResource(Util.getResByCategory(recordatorio.categoria))
         holder.btnshow.setOnClickListener {
-            TransitionManager.beginDelayedTransition(holder.ctitem, AutoTransition())
             if (holder.ctextras.visibility == View.VISIBLE){
-                holder.ctextras.visibility = View.GONE
+                Util.collapse(holder.ctextras)
                 holder.btnshow.setIconResource(R.drawable.ic_arrow_out_down)
             } else {
-                holder.ctextras.visibility = View.VISIBLE
+                Util.expand(holder.ctextras)
                 holder.btnshow.setIconResource(R.drawable.ic_arrow_out_up)
             }
         }
